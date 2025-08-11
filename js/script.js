@@ -1,5 +1,19 @@
 // Calculator 
 
+function checkOperatorValidity(currentOperator, lastValue) {
+
+    const calculatorOperators = ['+', '-', '×', '/', '%'];
+
+    if (calculatorOperators.includes(currentOperator) && 
+        calculatorOperators.includes(lastValue))
+        {            
+            return false;
+        }
+
+        return true;
+}
+
+
 const numberButtons = document.querySelectorAll('.numerical');
 const operatorButtons = document.querySelectorAll('.non-numerical.operators');
 
@@ -32,32 +46,15 @@ numberButtons.forEach(button => {
 // Button event for operators
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
-        const currentValue = button.value;
 
-        firstDisplay.textContent += currentValue;
+        const lastValue = firstDisplay.textContent.slice(-1);
+
+        if (!checkOperatorValidity(button.value, lastValue))
+        {
+            return;
+        }
+        firstDisplay.textContent += button.value;
 
     })
 });
 
-
-
-
-/*
-function checkOperatorValidity(currentOperator, lastOperator) {
-
-    const calculatorOperators = ['+', '-', '×', '/', '%'];
-
-    if (calculatorOperators.includes(currentOperator) && 
-        calculatorOperators.includes(lastOperator))
-        {            
-            return false;
-        }
-
-        return true;
-
-} 
-
-
-
-
-*/

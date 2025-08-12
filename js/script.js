@@ -61,14 +61,14 @@ numberButtons.forEach(button => {
 
         // Replace leading zero with non-zero digit
         else if (firstDisplay.textContent[0] === '0' && currentValue !== '0') {
-            firstDisplay.textContent = '';
-            firstDisplay.textContent = firstDisplay.textContent + currentValue;
-            return;
+            firstDisplay.textContent = currentValue;
         }
-        
-        // Append digit otherwise
-        firstDisplay.textContent += currentValue;
 
+        // Append digit otherwise
+        else {
+            firstDisplay.textContent += currentValue;
+        }        
+        
     })
 
 });

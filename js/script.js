@@ -43,6 +43,13 @@ function operate(firstOperand, secondOperand, currentOperator) {
     }
 }
 
+function resetCalculator(){
+    firstOperand = '';
+    secondOperand = '';
+    operandIndex = 0;
+    firstDisplay.textContent = 0;
+}
+
 
 // DOM element references
 const numberButtons = document.querySelectorAll('.numerical');
@@ -59,11 +66,22 @@ let firstOperand = '';
 let secondOperand = '';
 let operandIndex = 0;
 
+// Variabe to fetch the current operator choice of user
 let currentOperator = '';
+
+// Flag to determine if next input after result should reset the display.
+let resetByDefault = 0;
 
 // Number button click handler
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
+
+        // If user enters a number instead of operator immediately after operation result,
+        // the calculator will be reset automatically.
+        if (resetByDefault) {
+            resetCalculator();
+            resetByDefault = 0;
+        }
 
         const currentValue = button.value;
         
@@ -101,9 +119,12 @@ operatorButtons.forEach(button => {
         }
 
         firstDisplay.textContent += button.value;
+
         currentOperator = button.value;
 
         operandIndex = 1;
+
+        resetByDefault = 0;
     })
 });
 
@@ -121,12 +142,12 @@ equalToButton.addEventListener('click', () => {
     // Clear the second operand to make space for next operand
     secondOperand = '';
 
+    resetByDefault = 1;
 });
 
 // Reset button handler
 resetButton.addEventListener('click', () => {
-    firstOperand = '';
-    secondOperand = '';
-    operandIndex = 0;
-    firstDisplay.textContent = 0;
+    resetCalculator();
 });
+
+

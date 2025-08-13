@@ -48,6 +48,7 @@ function operate(firstOperand, secondOperand, currentOperator) {
 const numberButtons = document.querySelectorAll('.numerical');
 const operatorButtons = document.querySelectorAll('.non-numerical.operators');
 const equalToButton = document.querySelector('.non-numerical.equal-to');
+const resetButton = document.querySelector('.non-numerical.reset');
 const firstDisplay = document.querySelector('.display.display-1');
 
 // Initialize display
@@ -108,6 +109,7 @@ operatorButtons.forEach(button => {
 
 // Equal-to button handler
 equalToButton.addEventListener('click', () => {
+
     // Fetch result from the operation of two operands
     const operationResult = operate(Number(firstOperand), Number(secondOperand), currentOperator);
 
@@ -119,4 +121,12 @@ equalToButton.addEventListener('click', () => {
     // Clear the second operand to make space for next operand
     secondOperand = '';
 
+});
+
+// Reset button handler
+resetButton.addEventListener('click', () => {
+    firstOperand = '';
+    secondOperand = '';
+    operandIndex = 0;
+    firstDisplay.textContent = 0;
 });

@@ -30,10 +30,24 @@ function updateActiveOperand(operandIndex, currentDigit)
     }
 }
 
+function operate(firstOperand, secondOperand, currentOperator) {
+    switch(currentOperator) {
+
+        case '+': return firstOperand + secondOperand;
+        case '-': return firstOperand - secondOperand;
+        case '×': return firstOperand * secondOperand;
+        case '/': return firstOperand / secondOperand;
+        case '%': return firstOperand % secondOperand;
+
+        default: alert("Something went wrong!");
+    }
+}
+
 
 // DOM element references
 const numberButtons = document.querySelectorAll('.numerical');
 const operatorButtons = document.querySelectorAll('.non-numerical.operators');
+const equalToButton = document.querySelector('.non-numerical.equal-to');
 const firstDisplay = document.querySelector('.display.display-1');
 
 // Initialize display
@@ -43,6 +57,8 @@ firstDisplay.textContent = 0;
 let firstOperand = '';
 let secondOperand = '';
 let operandIndex = 0;
+
+let currentOperator = '';
 
 // Number button click handler
 numberButtons.forEach(button => {
@@ -84,8 +100,23 @@ operatorButtons.forEach(button => {
         }
 
         firstDisplay.textContent += button.value;
+        currentOperator = button.value;
 
         operandIndex = 1;
     })
 });
 
+// Equal-to button handler
+equalToButton.addEventListener('click', () => {
+    // Fetch result from the operation of two operands
+    const operationResult = operate(Number(firstOperand), Number(secondOperand), currentOperator);
+
+    // Print the result on the display
+    firstDisplay.textContent = operationResult;
+
+    // Assign the result of operation to first operand for further operation
+    firstOperand = operationResult.toString();
+    // Clear the second operand to make space for next operand
+    secondOperand = '';
+
+});

@@ -15,28 +15,21 @@ function checkOperatorValidity(currentOperator, lastValue) {
         return true;
 }
 
-/* function operate(firstNumber, secondNumber, givenOperator) {
-    switch (givenOperator) 
+// Appends the current digit to the active operand based on the operandIndex flag.
+function updateActiveOperand(operandIndex, currentDigit) 
+{
+    // In case of first operand
+    if (!operandIndex)
     {
-        case '+': 
-            return firstNumber + secondNumber;
-
-        case '-': 
-            return firstNumber - secondNumber;
-        
-        case '×': 
-            return firstNumber * secondNumber;
-
-        case '/': 
-            return firstNumber / secondNumber;
-
-        case '%': 
-            return firstNumber % secondNumber;
-        
+        firstOperand += currentDigit;
+    }
+    // In case of second operand
+    else
+    {
+        secondOperand += currentDigit;
     }
 }
 
-*/
 
 // DOM element references
 const numberButtons = document.querySelectorAll('.numerical');
@@ -46,7 +39,10 @@ const firstDisplay = document.querySelector('.display.display-1');
 // Initialize display
 firstDisplay.textContent = 0;
 
-
+// Variables to store and track operands before and after an operator
+let firstOperand = '';
+let secondOperand = '';
+let operandIndex = 0;
 
 // Number button click handler
 numberButtons.forEach(button => {
@@ -68,6 +64,8 @@ numberButtons.forEach(button => {
         else {
             firstDisplay.textContent += currentValue;
         }        
+
+        updateActiveOperand(operandIndex, currentValue);
         
     })
 
@@ -84,8 +82,10 @@ operatorButtons.forEach(button => {
         {
             return;
         }
+
         firstDisplay.textContent += button.value;
 
+        operandIndex = 1;
     })
 });
 

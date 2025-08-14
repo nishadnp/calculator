@@ -48,6 +48,7 @@ function resetCalculator(){
     secondOperand = '';
     operandIndex = 0;
     firstDisplay.textContent = 0;
+    decimalDot.disabled = false;
 }
 
 
@@ -56,6 +57,7 @@ const numberButtons = document.querySelectorAll('.numerical');
 const operatorButtons = document.querySelectorAll('.non-numerical.operators');
 const equalToButton = document.querySelector('.non-numerical.equal-to');
 const resetButton = document.querySelector('.non-numerical.reset');
+const decimalDot = document.querySelector('.non-numerical.decimal-point');
 const firstDisplay = document.querySelector('.display.display-1');
 
 // Initialize display
@@ -124,6 +126,9 @@ operatorButtons.forEach(button => {
 
         operandIndex = 1;
 
+        // Enable decimal dot after operation
+        decimalDot.disabled = false;
+
         resetByDefault = 0;
     })
 });
@@ -143,6 +148,9 @@ equalToButton.addEventListener('click', () => {
     secondOperand = '';
 
     resetByDefault = 1;
+
+    // Enable decimal dot after operator
+    decimalDot.disabled = false;
 });
 
 // Reset button handler
@@ -150,4 +158,19 @@ resetButton.addEventListener('click', () => {
     resetCalculator();
 });
 
+// Decimal dot (.) button handler
+decimalDot.addEventListener('click', () => {
 
+    
+    firstDisplay.textContent += decimalDot.value;
+
+    // Disable decimal dot after every once while entering a number.
+    if (!operandIndex) {
+        firstOperand += decimalDot.value;
+        decimalDot.disabled = true;
+    }
+    else {
+        secondOperand += decimalDot.value;
+        decimalDot.disabled = true;
+    }
+});

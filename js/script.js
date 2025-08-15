@@ -21,11 +21,13 @@ function updateActiveOperand(operandIndex, currentDigit)
     // In case of first operand
     if (!operandIndex)
     {
+        firstDisplay.textContent += currentDigit;
         firstOperand += currentDigit;
     }
     // In case of second operand
     else
     {
+        firstDisplay.textContent += currentDigit;
         secondOperand += currentDigit;
     }
 }
@@ -44,10 +46,10 @@ function operate(firstOperand, secondOperand, currentOperator) {
 }
 
 function resetCalculator(){
-    firstOperand = '';
+    firstOperand = '0';
     secondOperand = '';
     operandIndex = 0;
-    firstDisplay.textContent = 0;
+    firstDisplay.textContent = firstOperand;
     decimalDot.disabled = false;
 }
 
@@ -60,11 +62,10 @@ const resetButton = document.querySelector('.non-numerical.reset');
 const decimalDot = document.querySelector('.non-numerical.decimal-point');
 const firstDisplay = document.querySelector('.display.display-1');
 
-// Initialize display
-firstDisplay.textContent = 0;
+
 
 // Variables to store and track operands before and after an operator
-let firstOperand = '';
+let firstOperand = '0';
 let secondOperand = '';
 let operandIndex = 0;
 
@@ -72,7 +73,10 @@ let operandIndex = 0;
 let currentOperator = '';
 
 // Flag to determine if next input after result should reset the display.
-let resetByDefault = 0;
+let resetByDefault = false;
+
+// Initialize display with first operand
+firstDisplay.textContent = firstOperand;
 
 // Number button click handler
 numberButtons.forEach(button => {
@@ -82,27 +86,27 @@ numberButtons.forEach(button => {
         // the calculator will be reset automatically.
         if (resetByDefault) {
             resetCalculator();
-            resetByDefault = 0;
+            resetByDefault = false;
         }
 
         const currentValue = button.value;
         
         // Prevent multiple leading zeroes
-        if (firstDisplay.textContent[0] === '0' && currentValue === '0') {
+        if (firstOperand[0] === '0' && currentValue === '0') {
             return;
         }
 
         // Replace leading zero with non-zero digit
-        else if (firstDisplay.textContent[0] === '0' && currentValue !== '0') {
-            firstDisplay.textContent = currentValue;
+        else if (firstOperand[0] === '0' && currentValue !== '0') {
+            firstOperand = '';
+            firstDisplay.textContent = firstOperand;
+            updateActiveOperand(operandIndex, currentValue);
         }
 
         // Append digit otherwise
         else {
-            firstDisplay.textContent += currentValue;
+            updateActiveOperand(operandIndex, currentValue);
         }        
-
-        updateActiveOperand(operandIndex, currentValue);
         
     })
 
@@ -113,41 +117,40 @@ numberButtons.forEach(button => {
 operatorButtons.forEach(button => {
     button.addEventListener('click', () => {
 
+        currentOperator = button.value;
+
         const lastValue = firstDisplay.textContent.slice(-1);
 
-        if (!checkOperatorValidity(button.value, lastValue))
+        if (!checkOperatorValidity(currentOperator, lastValue))
         {
             return;
         }
 
-        firstDisplay.textContent += button.value;
-
-        currentOperator = button.value;
+        firstDisplay.textContent += currentOperator;
 
         operandIndex = 1;
 
         // Enable decimal dot after operation
         decimalDot.disabled = false;
 
-        resetByDefault = 0;
+        resetByDefault = false;
     })
 });
 
 // Equal-to button handler
 equalToButton.addEventListener('click', () => {
 
-    // Fetch result from the operation of two operands
-    const operationResult = operate(Number(firstOperand), Number(secondOperand), currentOperator);
+    // Fetch result from the operation of two operands, and
+    // assign the result of operation to first operand for further operation.
+    firstOperand = operate(Number(firstOperand), Number(secondOperand), currentOperator);
 
-    // Print the result on the display
-    firstDisplay.textContent = operationResult;
-
-    // Assign the result of operation to first operand for further operation
-    firstOperand = operationResult.toString();
     // Clear the second operand to make space for next operand
     secondOperand = '';
 
-    resetByDefault = 1;
+    // Print the result on the display
+    firstDisplay.textContent = firstOperand;
+
+    resetByDefault = true;
 
     // Enable decimal dot after operator
     decimalDot.disabled = false;
@@ -160,7 +163,6 @@ resetButton.addEventListener('click', () => {
 
 // Decimal dot (.) button handler
 decimalDot.addEventListener('click', () => {
-
     
     firstDisplay.textContent += decimalDot.value;
 

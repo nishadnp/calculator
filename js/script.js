@@ -2,17 +2,13 @@
 
 function checkOperatorValidity(currentOperator, lastValue) {
 
-
-    // Operators allowed
-    const calculatorOperators = ['+', '-', '×', '/', '%'];
-
     if (calculatorOperators.includes(currentOperator) && 
         calculatorOperators.includes(lastValue))
-        {            
-            return false;
-        }
+    {            
+        return false;
+    }
 
-        return true;
+    return true;
 }
 
 // Appends the current digit to the active operand based on the operandIndex flag.
@@ -42,6 +38,7 @@ function operate(firstOperand, secondOperand, currentOperator) {
         case '%': return firstOperand % secondOperand;
 
         default: alert("Something went wrong!");
+                 resetCalculator();
     }
 }
 
@@ -60,9 +57,12 @@ const operatorButtons = document.querySelectorAll('.non-numerical.operators');
 const equalToButton = document.querySelector('.non-numerical.equal-to');
 const resetButton = document.querySelector('.non-numerical.reset');
 const decimalDot = document.querySelector('.non-numerical.decimal-point');
+const backSpace = document.querySelector('.non-numerical.backspace');
 const firstDisplay = document.querySelector('.display.display-1');
 
 
+// Operators allowed
+const calculatorOperators = ['+', '-', '×', '/', '%'];
 
 // Variables to store and track operands before and after an operator
 let firstOperand = '0';
@@ -175,4 +175,28 @@ decimalDot.addEventListener('click', () => {
         secondOperand += decimalDot.value;
         decimalDot.disabled = true;
     }
+});
+
+
+backSpace.addEventListener('click', () => {
+
+    if (calculatorOperators.includes(firstDisplay.textContent.slice(-1))) {
+        firstDisplay.textContent = firstDisplay.textContent.slice(0, -1);
+        currentOperator = '';
+    }
+
+    else if (!operandIndex) {
+        firstOperand = firstOperand.slice(0, -1);
+        firstDisplay.textContent = firstDisplay.textContent.slice(0, -1);
+    }
+
+    else {
+        secondOperand = secondOperand.slice(0, -1);
+        firstDisplay.textContent = firstDisplay.textContent.slice(0, -1);
+    }
+
+    if (firstDisplay.textContent === '') {
+        resetCalculator();
+    }
+
 });

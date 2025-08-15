@@ -1,5 +1,29 @@
 // Calculator 
 
+function add(firstOperand, secondOperand) {
+    return firstOperand + secondOperand;
+}
+
+function subtract(firstOperand, secondOperand) {
+    return firstOperand - secondOperand;
+}
+
+function multiply(firstOperand, secondOperand) {
+    return firstOperand * secondOperand;
+}
+
+function divide(firstOperand, secondOperand) {
+    if (secondOperand === 0) {
+        alert("Division by zero is undefined");
+        return;
+    }
+    return firstOperand / secondOperand;
+}
+
+function remainder(firstOperand, secondOperand) {
+    return firstOperand % secondOperand;
+}
+
 function checkOperatorValidity(currentOperator, lastValue) {
 
     if (calculatorOperators.includes(currentOperator) && 
@@ -31,11 +55,11 @@ function updateActiveOperand(operandIndex, currentDigit)
 function operate(firstOperand, secondOperand, currentOperator) {
     switch(currentOperator) {
 
-        case '+': return firstOperand + secondOperand;
-        case '-': return firstOperand - secondOperand;
-        case '×': return firstOperand * secondOperand;
-        case '/': return firstOperand / secondOperand;
-        case '%': return firstOperand % secondOperand;
+        case '+': return add(firstOperand, secondOperand);
+        case '-': return subtract(firstOperand, secondOperand);
+        case '×': return multiply((firstOperand, secondOperand));
+        case '/': return divide(firstOperand, secondOperand);
+        case '%': return remainder(firstOperand, secondOperand);
 
         default: alert("Something went wrong!");
                  resetCalculator();

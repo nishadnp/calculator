@@ -1,4 +1,30 @@
-// Calculator 
+/* Calculator */
+
+
+// Operators allowed
+const calculatorOperators = ['+', '-', '×', '/', '%'];
+
+// DOM element references
+const numberButtons = document.querySelectorAll('.numerical');
+const operatorButtons = document.querySelectorAll('.non-numerical.operators');
+const equalToButton = document.querySelector('.non-numerical.equal-to');
+const resetButton = document.querySelector('.non-numerical.reset');
+const decimalDot = document.querySelector('.non-numerical.decimal-point');
+const backSpace = document.querySelector('.non-numerical.backspace');
+const firstDisplay = document.querySelector('.display.display-1');
+
+
+// Variables to store and track operands before and after an operator
+let firstOperand = '0';
+let secondOperand = '';
+let operandIndex = 0;
+
+// Variabe to fetch the current operator choice of user
+let currentOperator = '';
+
+// Flag to determine if next input after result should reset the display.
+let resetByDefault = false;
+
 
 // Arithematic functions
 function add(firstOperand, secondOperand) {
@@ -37,23 +63,6 @@ function checkOperatorValidity(currentOperator, lastValue) {
     return true;
 }
 
-// Appends the current digit to the active operand based on the operandIndex flag.
-function updateActiveOperand(operandIndex, currentDigit) 
-{
-    // In case of first operand
-    if (!operandIndex)
-    {
-        firstDisplay.textContent += currentDigit;
-        firstOperand += currentDigit;
-    }
-    // In case of second operand
-    else
-    {
-        firstDisplay.textContent += currentDigit;
-        secondOperand += currentDigit;
-    }
-}
-
 // Function that fetch operands and operator to operate
 function operate(firstOperand, secondOperand, currentOperator) {
     switch(currentOperator) {
@@ -69,8 +78,25 @@ function operate(firstOperand, secondOperand, currentOperator) {
     }
 }
 
+
+// Appends the current digit to the active operand based on the operandIndex flag.
+function updateActiveOperand(operandIndex, currentDigit) {
+    // In case of first operand
+    if (!operandIndex)
+    {
+        firstDisplay.textContent += currentDigit;
+        firstOperand += currentDigit;
+    }
+    // In case of second operand
+    else
+    {
+        firstDisplay.textContent += currentDigit;
+        secondOperand += currentDigit;
+    }
+}
+
 // Resets the calculator
-function resetCalculator(){
+function resetCalculator() {
     firstOperand = '0';
     secondOperand = '';
     operandIndex = 0;
@@ -78,33 +104,6 @@ function resetCalculator(){
     decimalDot.disabled = false;
 }
 
-
-// DOM element references
-const numberButtons = document.querySelectorAll('.numerical');
-const operatorButtons = document.querySelectorAll('.non-numerical.operators');
-const equalToButton = document.querySelector('.non-numerical.equal-to');
-const resetButton = document.querySelector('.non-numerical.reset');
-const decimalDot = document.querySelector('.non-numerical.decimal-point');
-const backSpace = document.querySelector('.non-numerical.backspace');
-const firstDisplay = document.querySelector('.display.display-1');
-
-
-// Operators allowed
-const calculatorOperators = ['+', '-', '×', '/', '%'];
-
-// Variables to store and track operands before and after an operator
-let firstOperand = '0';
-let secondOperand = '';
-let operandIndex = 0;
-
-// Variabe to fetch the current operator choice of user
-let currentOperator = '';
-
-// Flag to determine if next input after result should reset the display.
-let resetByDefault = false;
-
-// Initialize display with first operand
-firstDisplay.textContent = firstOperand;
 
 // Number button click handler
 numberButtons.forEach(button => {
@@ -150,8 +149,7 @@ operatorButtons.forEach(button => {
         const lastValue = firstDisplay.textContent.slice(-1);
 
         // Check to prevent consecutive entry of operators
-        if (!checkOperatorValidity(currentOperator, lastValue))
-        {
+        if (!checkOperatorValidity(currentOperator, lastValue)) {
             return;
         }
 
@@ -233,3 +231,7 @@ backSpace.addEventListener('click', () => {
     }
 
 });
+
+
+// Initialize display with first operand
+firstDisplay.textContent = firstOperand;

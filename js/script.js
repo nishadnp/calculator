@@ -1,5 +1,6 @@
 // Calculator 
 
+// Arithematic functions
 function add(firstOperand, secondOperand) {
     return firstOperand + secondOperand;
 }
@@ -24,6 +25,7 @@ function remainder(firstOperand, secondOperand) {
     return firstOperand % secondOperand;
 }
 
+// Function that checks if last input is an operator
 function checkOperatorValidity(currentOperator, lastValue) {
 
     if (calculatorOperators.includes(currentOperator) && 
@@ -52,12 +54,13 @@ function updateActiveOperand(operandIndex, currentDigit)
     }
 }
 
+// Function that fetch operands and operator to operate
 function operate(firstOperand, secondOperand, currentOperator) {
     switch(currentOperator) {
 
         case '+': return add(firstOperand, secondOperand);
         case '-': return subtract(firstOperand, secondOperand);
-        case '×': return multiply((firstOperand, secondOperand));
+        case '×': return multiply(firstOperand, secondOperand);
         case '/': return divide(firstOperand, secondOperand);
         case '%': return remainder(firstOperand, secondOperand);
 
@@ -66,6 +69,7 @@ function operate(firstOperand, secondOperand, currentOperator) {
     }
 }
 
+// Resets the calculator
 function resetCalculator(){
     firstOperand = '0';
     secondOperand = '';
@@ -145,13 +149,16 @@ operatorButtons.forEach(button => {
 
         const lastValue = firstDisplay.textContent.slice(-1);
 
+        // Check to prevent consecutive entry of operators
         if (!checkOperatorValidity(currentOperator, lastValue))
         {
             return;
         }
 
+        // Display the user's operator choice
         firstDisplay.textContent += currentOperator;
 
+        // Use the operandIndex to point next operand after operator
         operandIndex = 1;
 
         // Enable decimal dot after operation
@@ -181,16 +188,14 @@ equalToButton.addEventListener('click', () => {
 });
 
 // Reset button handler
-resetButton.addEventListener('click', () => {
-    resetCalculator();
-});
+resetButton.addEventListener('click', resetCalculator);
 
 // Decimal dot (.) button handler
 decimalDot.addEventListener('click', () => {
     
     firstDisplay.textContent += decimalDot.value;
 
-    // Disable decimal dot after every once while entering a number.
+    // Disable decimal dot after every once while entering an operand.
     if (!operandIndex) {
         firstOperand += decimalDot.value;
         decimalDot.disabled = true;
@@ -201,24 +206,28 @@ decimalDot.addEventListener('click', () => {
     }
 });
 
-
+// Backspace (⌫) button handler
 backSpace.addEventListener('click', () => {
 
+    // In case of user backspaces operator
     if (calculatorOperators.includes(firstDisplay.textContent.slice(-1))) {
         firstDisplay.textContent = firstDisplay.textContent.slice(0, -1);
         currentOperator = '';
     }
 
+    // In case of user backspaces first operand
     else if (!operandIndex) {
         firstOperand = firstOperand.slice(0, -1);
         firstDisplay.textContent = firstDisplay.textContent.slice(0, -1);
     }
 
+    // In case of user backspaces second operand
     else {
         secondOperand = secondOperand.slice(0, -1);
         firstDisplay.textContent = firstDisplay.textContent.slice(0, -1);
     }
 
+    // Calculator resets if user backspaces everything
     if (firstDisplay.textContent === '') {
         resetCalculator();
     }

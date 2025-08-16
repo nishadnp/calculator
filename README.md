@@ -27,3 +27,8 @@ A browser version of simple calculator with basic functions.
 
 - Paranthesis buttons are currently disabled, and will be enabled in future.
 - There's space for second display under main display which will be used in future.
+- Keyboard support will be added soon.
+
+## Link
+
+Live Site: [calculator](https://nishadnp.github.io/calculator/)

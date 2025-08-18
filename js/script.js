@@ -4,7 +4,7 @@
 /* CONSTANTS AND VARIABLES */
 
 // Operators allowed
-const calculatorOperators = ['+', '-', '×', '/', '%'];
+const calculatorOperators = ['+', '-', '*', '/', '%'];
 
 // DOM element references
 const numberButtons = document.querySelectorAll('.numerical');
@@ -55,7 +55,7 @@ function remainder(firstOperand, secondOperand) {
 }
 
 // Function that checks if last input is an operator
-function checkOperatorValidity(currentOperator, lastValue) {
+function checkOperatorValidity(operator, lastValue) {
 
     if (calculatorOperators.includes(currentOperator) && 
         calculatorOperators.includes(lastValue))
@@ -73,7 +73,7 @@ function operate(firstOperand, secondOperand, currentOperator) {
         case '+': return add(firstOperand, secondOperand);
         case '-': return subtract(firstOperand, secondOperand);
         case '×': return multiply(firstOperand, secondOperand);
-        case '/': return divide(firstOperand, secondOperand);
+        case '÷': return divide(firstOperand, secondOperand);
         case '%': return remainder(firstOperand, secondOperand);
 
         default: alert("Something went wrong!");
@@ -129,13 +129,23 @@ function getDigit(digit) {
 function getOperator(operator) {
     
     const lastValue = firstDisplay.textContent.slice(-1);
-    
+
     // Check to prevent consecutive entry of operators
     if (!checkOperatorValidity(operator, lastValue)) {
         return;
     }
 
-    currentOperator = operator;
+    if (operator === '*') {
+        currentOperator = '×'
+    }
+    else if (operator === '/') {
+        currentOperator = '÷';
+    }
+    else {
+        currentOperator = operator;
+    }
+    
+    
     
     // Display the user's operator choice
     firstDisplay.textContent += currentOperator;
@@ -242,6 +252,30 @@ decimalDotButton.addEventListener('click', () => getdecimalDot(decimalDotButton.
 
 // Backspace (⌫) button handler
 backSpaceButton.addEventListener('click', backSpace);
+
+// Keyboard keys handler
+document.addEventListener('keydown', (e) => {
+
+    const keyPressed = e.key;
+
+    // Shift + R resets the calculator
+    if (e.shiftKey && keyPressed.toUpperCase() === 'R') return resetCalculator();
+
+    // Handle digit keys (0 - 9)
+    if (/^\d$/.test(keyPressed)) return getDigit(keyPressed);
+
+    // Handle operator keys (+, -, *, /, %)
+    if (calculatorOperators.includes(keyPressed)) return getOperator(keyPressed);
+
+    // Handle dot (.) button
+    if (keyPressed === '.') return getdecimalDot(keyPressed);
+
+    // Handle equal (=) or Enter (↵) keys
+    if (keyPressed === '='|| keyPressed === 'Enter') return getResult();
+    
+    // Handle backspace (←) key
+    if (keyPressed === 'Backspace') return backSpace();
+});
 
 
 // Initialize display with first operand

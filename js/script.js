@@ -57,11 +57,15 @@ function remainder(firstOperand, secondOperand) {
 // Function that checks if last input is an operator
 function checkOperatorValidity(operator, lastValue) {
 
+    // Disallow user from entering more than one operator consecutively
     if (calculatorOperators.includes(currentOperator) && 
         calculatorOperators.includes(lastValue))
     {            
         return false;
     }
+
+    // Disallow user from entering operator if the operand is incomplete after decimal dot 
+    if (lastValue === '.') return;
 
     return true;
 }
@@ -111,8 +115,8 @@ function getDigit(digit) {
         return;
     }
 
-    // Replace leading zero with non-zero digit
-    else if (firstOperand[0] === '0' && digit !== '0') {
+    // Replace leading zero with non-zero digit unless its decimal of 0
+    else if (firstOperand[0] === '0' && digit !== '0' && firstOperand[1] !== '.') {
         firstOperand = '';
         firstDisplay.textContent = firstOperand;
         updateActiveOperand(operandIndex, digit);
@@ -144,26 +148,26 @@ function getOperator(operator) {
     else {
         currentOperator = operator;
     }
-    
-    
-    
+        
     // Display the user's operator choice
     firstDisplay.textContent += currentOperator;
 
     // Use the operandIndex to point next operand after operator
     operandIndex = 1;
 
-    // Enable decimal dot after operation
-    decimalDotButton.disabled = false;
-
     resetByDefault = false;
 }
 
 function getResult() {
 
-    // Fetch result from the operation of two operands, and
-    // assign the result of operation to first operand for further operation.
-    firstOperand = operate(Number(firstOperand), Number(secondOperand), currentOperator);
+    // Prevent operation if operands or operator is incomplete
+    if (secondOperand.slice(-1) === '.' || !secondOperand || !currentOperator) return;
+
+    // Fetch result from the operation of two operands
+    const result = operate(Number(firstOperand), Number(secondOperand), currentOperator);
+
+    // Assign the result of operation as string to first operand for further operation.
+    firstOperand = String(result);
 
     // Clear the second operand to make space for next operand
     secondOperand = '';
@@ -172,24 +176,33 @@ function getResult() {
     firstDisplay.textContent = firstOperand;
 
     resetByDefault = true;
-
-    // Enable decimal dot after operator
-    decimalDotButton.disabled = false;        
+       
 }
 
 function getdecimalDot(decimalPoint) {
 
-    firstDisplay.textContent += decimalPoint;
+    // Reset calculator if user tried to enter '.' immediately after result
+    if (resetByDefault) {
+        resetCalculator();
+        resetByDefault = false;
+    }
 
-    // Disable decimal dot after every once while entering an operand.
+    // Check if there's decimal dot button in each operands before appending it.
     if (!operandIndex) {
+
+        if (firstOperand.includes('.')) return;
+
         firstOperand += decimalPoint;
-        decimalDotButton.disabled = true;
     }
     else {
+
+        if (secondOperand.includes('.')) return;
+
         secondOperand += decimalPoint;
-        decimalDotButton.disabled = true;
     }
+
+    firstDisplay.textContent += decimalPoint;
+
 }
 
 function backSpace() {
@@ -225,7 +238,6 @@ function resetCalculator() {
     operandIndex = 0;
     currentOperator = '';
     firstDisplay.textContent = firstOperand;
-    decimalDotButton.disabled = false;
 }
 
 /* EVENT LISTENERS */

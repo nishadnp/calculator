@@ -131,6 +131,8 @@ function getDigit(digit) {
 }
 
 function getOperator(operator) {
+
+    if (currentOperator !== '') getResult();
     
     const lastValue = firstDisplay.textContent.slice(-1);
 
@@ -159,7 +161,7 @@ function getOperator(operator) {
 }
 
 function getResult() {
-
+    
     // Prevent operation if operands or operator is incomplete
     if (secondOperand.slice(-1) === '.' || !secondOperand || !currentOperator) return;
 
@@ -174,6 +176,8 @@ function getResult() {
 
     // Print the result on the display
     firstDisplay.textContent = firstOperand;
+
+    currentOperator = '';
 
     resetByDefault = true;
        

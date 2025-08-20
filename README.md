@@ -1,27 +1,35 @@
-# calculator v1
+# Calculator v1.1
+
 
 ## About
 
 A browser version of simple calculator with basic functions.
 
+
+## New in v1.1
+
+### Features / Improvements:
+
+- **Partial chaining operations:** Pressing an operator after an operation automatically uses the previous result for the next calculation.
+- **Decimal handling fixes:** Fixed issues with multiple decimal points per operand and operator entry immediately after a decimal.
+- **Keyboard support:** Use number keys, operators (+, -, *, /, %), dot (.), Enter (=), Backspace, and Shift+R (reset).
+
+
 ## Features 
 
-- A display to print the user given operands, operators and result of operation, where pair of operands and operator in between are displayed simultaneosly.
+- A display that shows operands, the operator, and the result simultaneously.
 - Buttons include: 
-   - Number buttons (0 - 9).
-   - Operator buttons (+, -, ×, ÷, REM). 
-   - Decimal dot button.
-   - Reset button (AC) and backspace (⌫) button.
-   - Paranthesis buttons (currently disabled).
+   - Numbers (0 - 9).
+   - Operators (+, -, ×, ÷, REM). 
+   - Decimal dot (.).
+   - Reset (AC) and backspace (⌫).
+   - Paranthesis (currently disabled).
+- Decimal dot works only once per operand.
+- Pressing = gives the result; the result can be used in further calculations.
+- Pressing a number after a result resets the calculator automatically.
+- Reset (AC) clears all.
+- Backspace (⌫) removes a single digit or operator; clears display if empty.
 
-## How it works?
- 
-- User need to provide pair of operands and operator in between by clicking appropriate buttons available.
-- Decimal-dot (.) only works once per operand.
-- Pressing equal-to (=) provides result of the operation.
-- Result of the operation is taken as next operand for further calculation, unless user enters a number on which calculator will be reset to 0. 
-- Pressing AC manually resets the calculator.
-- Pressing backspace (⌫) removes a single digit or operator at a time, and calculator resets if all the characters are removed.
 
 ## Note 
 
@@ -29,6 +37,20 @@ A browser version of simple calculator with basic functions.
 - There's space for second display under main display which will be used in future.
 - Keyboard support will be added soon.
 
+
 ## Link
 
-Live Site: [calculator](https://nishadnp.github.io/calculator/)
+Live Site: [calculator live site](https://nishadnp.github.io/calculator/)
+
+
+## Changelog
+
+### v1.1
+- Partial chaining operations
+- Decimal handling fixes
+- Keyboard support
+
+### v1.0
+- Initial release with basic arithmetic, display, buttons, and AC/backspace 
+
+

@@ -162,19 +162,19 @@ function getOperator(operator) {
 
 function getResult() {
     
-    // Prevent operation if operands or operator is incomplete
+    // Prevent operation if operands or operator is incomplete.
     if (secondOperand.slice(-1) === '.' || !secondOperand || !currentOperator) return;
 
-    // Fetch result from the operation of two operands
+    // Compute the result of the operation
     const result = operate(Number(firstOperand), Number(secondOperand), currentOperator);
+    
+    // Round the result to 2 decimal places and store as firstOperand for further calculations.
+    firstOperand = String(result.toFixed(2));
 
-    // Assign the result of operation as string to first operand for further operation.
-    firstOperand = String(result);
-
-    // Clear the second operand to make space for next operand
+    // Clear the second operand to make space for next operand.
     secondOperand = '';
 
-    // Print the result on the display
+    // Print the result on the display.
     firstDisplay.textContent = firstOperand;
 
     currentOperator = '';

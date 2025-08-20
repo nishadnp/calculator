@@ -40,7 +40,7 @@ A browser version of simple calculator with basic functions.
 
 ## Link
 
-Live Site: [calculator live site](https://nishadnp.github.io/calculator/)
+[calculator-live-page](https://nishadnp.github.io/calculator/)
 
 
 ## Changelog

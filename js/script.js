@@ -57,8 +57,13 @@ function remainder(firstOperand, secondOperand) {
 // Function that checks if last input is an operator
 function checkOperatorValidity(operator, lastValue) {
 
+    // Convert traditional symbol of multiplication and division to its mathematical symbol
+    // for operational convenience
+    if (lastValue === '×') lastValue = '*';
+    else if (lastValue === '÷') lastValue = '/';
+
     // Disallow user from entering more than one operator consecutively
-    if (calculatorOperators.includes(currentOperator) && 
+    if (calculatorOperators.includes(operator) && 
         calculatorOperators.includes(lastValue))
     {            
         return false;
